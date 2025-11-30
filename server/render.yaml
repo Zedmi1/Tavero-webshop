@@ -1,0 +1,23 @@
+databases:
+  - name: tavero-db
+    plan: free
+    databaseName: tavero
+    user: tavero
+
+services:
+  - type: web
+    name: tavero-api
+    runtime: node
+    plan: free
+    buildCommand: npm install && npx prisma generate
+    preDeployCommand: npx prisma migrate deploy && npm run seed
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: tavero-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: NODE_ENV
+        value: production
