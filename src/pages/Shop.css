@@ -1,0 +1,271 @@
+.shop-page {
+  animation: fadeIn 0.5s ease;
+}
+
+.shop-header {
+  background: var(--background-alt);
+  padding: 40px 0;
+  margin-bottom: 40px;
+}
+
+.shop-header h1 {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.shop-header p {
+  color: var(--text-light);
+}
+
+.shop-container {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 40px;
+  padding-bottom: 80px;
+}
+
+.filters-panel {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.filters-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.filters-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.clear-filters {
+  background: none;
+  color: var(--primary-dark);
+  font-size: 14px;
+}
+
+.close-filters {
+  display: none;
+  background: none;
+  color: var(--text-dark);
+}
+
+.filter-group {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.filter-group h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-dark);
+  transition: var(--transition);
+}
+
+.filter-option:hover {
+  color: var(--primary-dark);
+}
+
+.filter-option input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary);
+}
+
+.size-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.size-filter-btn {
+  min-width: 44px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  font-size: 13px;
+  font-weight: 500;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.size-filter-btn:hover,
+.size-filter-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.shop-content {
+  min-width: 0;
+}
+
+.shop-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.mobile-filter-btn {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.search-bar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+}
+
+.search-bar svg {
+  color: var(--text-light);
+  flex-shrink: 0;
+}
+
+.search-bar input {
+  flex: 1;
+  border: none;
+  font-size: 14px;
+}
+
+.clear-search {
+  background: none;
+  color: var(--text-light);
+  padding: 4px;
+}
+
+.sort-select {
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  font-size: 14px;
+  min-width: 180px;
+  cursor: pointer;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-light);
+}
+
+.no-results svg {
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.no-results h3 {
+  font-size: 20px;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.no-results p {
+  margin-bottom: 20px;
+}
+
+.filters-overlay {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .shop-container {
+    grid-template-columns: 1fr;
+  }
+
+  .filters-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+    background: white;
+    z-index: 1100;
+    padding: 20px;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .filters-panel.open {
+    transform: translateX(0);
+  }
+
+  .close-filters {
+    display: block;
+  }
+
+  .mobile-filter-btn {
+    display: flex;
+  }
+
+  .filters-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+  }
+
+  .shop-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .search-bar {
+    order: -1;
+    width: 100%;
+  }
+
+  .sort-select {
+    flex: 1;
+    min-width: auto;
+  }
+}
