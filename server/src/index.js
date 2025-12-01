@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const { PrismaClient } = require('@prisma/client');
 
 const authRoutes = require('./routes/auth');
@@ -21,10 +22,19 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Tavero API is running' });
 });
 
+const clientPath = path.join(__dirname, '../../dist');
+app.use(express.static(clientPath));
+
+app.get('*', (req, res) => {
+  if (!req.path.startsWith('/api')) {
+    res.sendFile(path.join(clientPath, 'index.html'));
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Tavero API server running on port ${PORT}`);
+  console.log(`Tavero server running on port ${PORT}`);
 });
 
 process.on('beforeExit', async () => {

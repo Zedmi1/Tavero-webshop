@@ -6,12 +6,12 @@ databases:
 
 services:
   - type: web
-    name: tavero-api
+    name: tavero
     runtime: node
     plan: free
-    buildCommand: npm install && npx prisma generate
-    preDeployCommand: npx prisma migrate deploy && npm run seed
-    startCommand: npm start
+    rootDir: .
+    buildCommand: npm install && npm run build && cd server && npm install && npx prisma generate
+    startCommand: cd server && npm start
     envVars:
       - key: DATABASE_URL
         fromDatabase:
