@@ -22,6 +22,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
 
     if (!formData.email || !formData.password) {
       setError('Please fill in all fields');
@@ -29,10 +30,19 @@ function Login() {
       return;
     }
 
-    const result = login(formData.email, formData.password);
+    const result = await login(formData.email, formData.password);
     
     if (result.success) {
-      navigate('/');
+      if (result.requires2FA) {
+        navigate('/verify-2fa', { 
+          state: { 
+            userId: result.userId,
+            email: formData.email
+          } 
+        });
+      } else {
+        navigate('/');
+      }
     } else {
       setError(result.error);
     }
@@ -108,7 +118,7 @@ function Login() {
           </Link>
 
           <p className="auth-footer">
-            <a href="#forgot">Forgot Password?</a>
+            <Link to="/forgot-password">Forgot Password?</Link>
           </p>
         </div>
       </div>

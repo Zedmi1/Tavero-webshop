@@ -140,18 +140,29 @@ See `DATABASE_DESIGN.md` for full schema documentation and dbdiagram.io code.
 
 Note: Product data (shirts, images, sizes) is stored in the frontend code (`src/data/products.js`), not in the database. The database focuses on user accounts and transactions.
 
-## Render Deployment
+## Render Deployment (Single Web Service)
 
-### Backend (Web Service)
-- **Build Command**: `npm install && npx prisma generate`
-- **Pre-Deploy Command**: `npx prisma migrate deploy && npm run seed`
-- **Start Command**: `npm start`
+The app is deployed as a **single web service** that serves both the API and static frontend files.
 
-### Environment Variables
-- `DATABASE_URL` - PostgreSQL connection string
-- `JWT_SECRET` - Authentication secret key
-- `NODE_ENV` - Set to `production`
+### Web Service Configuration
+- **Build Command**: `npm install && npm run build && cd server && npm install && npx prisma generate`
+- **Start Command**: `cd server && npm start`
+- **Root Directory**: `.` (project root)
 
-### Frontend (Static Site)
-- **Build Command**: `npm install && npm run build`
-- **Publish Directory**: `dist`
+### Environment Variables (Required)
+| Variable | Description |
+|----------|-------------|
+| `DATABASE_URL` | PostgreSQL connection string (auto-filled when linking Render database) |
+| `JWT_SECRET` | Secret key for authentication tokens |
+| `NODE_ENV` | Set to `production` |
+| `FRONTEND_URL` | Your Render URL (e.g., `https://tavero.onrender.com`) |
+| `BREVO_API_KEY` | Brevo API key for sending emails - Get free at [brevo.com](https://brevo.com) |
+
+### Environment Variables (Optional)
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `BREVO_SENDER_NAME` | Email sender display name | `Tavero` |
+| `BREVO_SENDER_EMAIL` | Email sender address | `noreply@tavero.com` |
+
+### Live URL
+https://tavero.onrender.com
