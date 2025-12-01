@@ -17,12 +17,31 @@ function generateResetToken() {
   return crypto.randomBytes(32).toString('hex');
 }
 
+function validatePassword(password) {
+  const errors = [];
+  if (password.length < 12) errors.push('at least 12 characters');
+  if (!/[A-Z]/.test(password)) errors.push('one uppercase letter');
+  if (!/[a-z]/.test(password)) errors.push('one lowercase letter');
+  if (!/[0-9]/.test(password)) errors.push('one number');
+  if (!/[!@#$%^&*(),.?":{}|<>_\-+=\[\]\\;'`~]/.test(password)) errors.push('one special character');
+  if ((password.match(/[0-9]/g) || []).length < 2) errors.push('at least 2 numbers');
+  if ((password.match(/[!@#$%^&*(),.?":{}|<>_\-+=\[\]\\;'`~]/g) || []).length < 2) errors.push('at least 2 special characters');
+  if (/(.)\1{2,}/.test(password)) errors.push('no more than 2 repeated characters in a row');
+  if (/^(password|123456|qwerty|admin|letmein|welcome)/i.test(password)) errors.push('no common passwords');
+  return errors;
+}
+
 router.post('/register', async (req, res) => {
   try {
     const { email, password, firstName, lastName, phone } = req.body;
 
     if (!email || !password || !firstName || !lastName) {
       return res.status(400).json({ error: 'Email, password, first name, and last name are required' });
+    }
+
+    const passwordErrors = validatePassword(password);
+    if (passwordErrors.length > 0) {
+      return res.status(400).json({ error: 'Password must contain: ' + passwordErrors.join(', ') });
     }
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
@@ -223,7 +242,7 @@ router.post('/forgot-password', async (req, res) => {
     const user = await prisma.user.findUnique({ where: { email } });
     
     if (!user) {
-      return res.json({ message: 'If an account exists with this email, a password reset link has been sent.' });
+      return res.status(404).json({ error: 'No account found with this email address' });
     }
 
     await prisma.passwordReset.updateMany({
@@ -251,10 +270,10 @@ router.post('/forgot-password', async (req, res) => {
       console.error('Failed to send password reset email:', emailResult.error);
     }
 
-    res.json({ message: 'If an account exists with this email, a password reset link has been sent.' });
+    res.json({ message: 'Password reset link has been sent to your email' });
   } catch (error) {
     console.error('Forgot password error:', error);
-    res.status(500).json({ error: 'Failed to process request' });
+    res.status(500).json({ error: 'Something went wrong. Please try again later.' });
   }
 });
 
@@ -266,8 +285,9 @@ router.post('/reset-password', async (req, res) => {
       return res.status(400).json({ error: 'Token and new password are required' });
     }
 
-    if (newPassword.length < 6) {
-      return res.status(400).json({ error: 'Password must be at least 6 characters' });
+    const passwordErrors = validatePassword(newPassword);
+    if (passwordErrors.length > 0) {
+      return res.status(400).json({ error: 'Password must contain: ' + passwordErrors.join(', ') });
     }
 
     const passwordReset = await prisma.passwordReset.findFirst({
