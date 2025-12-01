@@ -1,0 +1,53 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.announcement-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--secondary);
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  z-index: 1001;
+  overflow: hidden;
+}
+
+.announcement-track {
+  display: flex;
+  gap: 150px;
+  animation: scrollAnnouncement 200s linear infinite;
+  white-space: nowrap;
+  width: fit-content;
+  padding-left: 150px;
+}
+
+.announcement-track span {
+  flex-shrink: 0;
+}
+
+@keyframes scrollAnnouncement {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(-50% - 75px));
+  }
+}
+
+.main-content {
+  flex: 1;
+  padding-top: 80px;
+}
+
+.main-content.with-announcement {
+  padding-top: 118px;
+}

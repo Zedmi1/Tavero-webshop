@@ -1,0 +1,138 @@
+.product-card {
+  position: relative;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.product-link {
+  display: block;
+}
+
+.product-image-container {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--background-alt);
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.product-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.product-badge.new {
+  background: var(--primary);
+  color: var(--secondary);
+}
+
+.wishlist-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+  color: var(--text-light);
+  transition: var(--transition);
+  z-index: 10;
+}
+
+.wishlist-btn:hover {
+  transform: scale(1.1);
+}
+
+.wishlist-btn.active {
+  color: #EF4444;
+}
+
+.add-to-cart-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: var(--transition);
+}
+
+.add-to-cart-overlay.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.quick-size-select {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.size-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: white;
+  font-size: 12px;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.size-btn:hover,
+.size-btn.active {
+  background: var(--primary);
+}
+
+.add-btn {
+  width: 100%;
+}
+
+.product-info {
+  padding: 16px 4px;
+}
+
+.product-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.product-price {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--secondary);
+}
+
+@media (max-width: 768px) {
+  .add-to-cart-overlay {
+    opacity: 1;
+    transform: translateY(0);
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
+  }
+}
