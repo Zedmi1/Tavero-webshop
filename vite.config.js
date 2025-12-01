@@ -9,6 +9,10 @@ export default defineConfig({
     port: 5000,
     allowedHosts: true
   },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
