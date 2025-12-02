@@ -75,12 +75,7 @@ export function AuthProvider({ children }) {
         return { success: false, error: data.error || 'Registration failed' };
       }
 
-      setUser(data.user);
-      setToken(data.token);
-      localStorage.setItem('tavero_user', JSON.stringify(data.user));
-      localStorage.setItem('tavero_token', data.token);
-      
-      return { success: true };
+      return { success: true, redirectToLogin: true };
     } catch (error) {
       console.error('Registration error:', error);
       return { success: false, error: 'Failed to connect to server' };

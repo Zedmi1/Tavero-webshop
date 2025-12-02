@@ -111,7 +111,7 @@ function Verify2FA() {
                   id="code"
                   value={code}
                   onChange={handleCodeChange}
-                  placeholder="Enter 6-digit code"
+                  placeholder="Enter 6 digit code"
                   className="verification-code-input"
                   maxLength={6}
                   autoComplete="one-time-code"

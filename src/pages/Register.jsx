@@ -115,7 +115,7 @@ function Register() {
     const result = await register(formData.firstName, formData.lastName, formData.email, formData.password);
     
     if (result.success) {
-      navigate('/');
+      navigate('/login', { state: { registrationSuccess: true, email: formData.email } });
     } else {
       setError(result.error);
     }

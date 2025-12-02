@@ -209,11 +209,15 @@
 }
 
 .success-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #D1FAE5;
   color: #065F46;
-  padding: 20px;
+  padding: 16px;
   border-radius: 8px;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .success-message p {
@@ -234,6 +238,12 @@
   letter-spacing: 8px;
   text-align: center;
   font-weight: 600;
+}
+
+.verification-code-input::placeholder {
+  letter-spacing: normal;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .resend-section {
