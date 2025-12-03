@@ -152,6 +152,36 @@ function SizeGuide() {
               <p>Chest: 40" (102 cm)</p>
               <p>Wearing: Size L</p>
             </div>
+            <div className="model-card">
+              <h4>Brown Shirt Model</h4>
+              <p>Height: 5'9" (175 cm)</p>
+              <p>Chest: 37" (94 cm)</p>
+              <p>Wearing: Size M</p>
+            </div>
+            <div className="model-card">
+              <h4>Gray Shirt Model</h4>
+              <p>Height: 5'11" (180 cm)</p>
+              <p>Chest: 39" (99 cm)</p>
+              <p>Wearing: Size M</p>
+            </div>
+            <div className="model-card">
+              <h4>Green Shirt Model</h4>
+              <p>Height: 6'1" (185 cm)</p>
+              <p>Chest: 41" (104 cm)</p>
+              <p>Wearing: Size L</p>
+            </div>
+            <div className="model-card">
+              <h4>Light Blue Shirt Model</h4>
+              <p>Height: 5'8" (173 cm)</p>
+              <p>Chest: 36" (91 cm)</p>
+              <p>Wearing: Size S</p>
+            </div>
+            <div className="model-card">
+              <h4>Marine Shirt Model</h4>
+              <p>Height: 6'2" (188 cm)</p>
+              <p>Chest: 42" (107 cm)</p>
+              <p>Wearing: Size L</p>
+            </div>
           </div>
         </section>
 

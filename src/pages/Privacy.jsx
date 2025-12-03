@@ -128,8 +128,8 @@ function Privacy() {
         <section className="legal-section">
           <h2>12. Contact Us</h2>
           <p>If you have questions about this Privacy Policy or our data practices, please contact us:</p>
-          <p><strong>Email:</strong> privacy@tavero.com</p>
-          <p><strong>Address:</strong> Tavero, Los Angeles, CA</p>
+          <p><strong>Email:</strong> zedminabowan@gmail.com</p>
+          <p><strong>Address:</strong> Tavero, Eindhoven, Netherlands</p>
         </section>
       </div>
     </div>

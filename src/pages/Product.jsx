@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useRecentlyViewed } from '../context/RecentlyViewedContext';
 import ProductCard from '../components/ProductCard';
 import { products } from '../data/products';
 import './Product.css';
@@ -15,6 +16,7 @@ function Product() {
   const [addedToCart, setAddedToCart] = useState(false);
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist, heartAnimation } = useWishlist();
+  const { addToRecentlyViewed, recentlyViewed } = useRecentlyViewed();
 
   useEffect(() => {
     const found = products.find(p => p.id === parseInt(id));
@@ -23,6 +25,7 @@ function Product() {
       setSelectedSize(found.sizes[2] || found.sizes[0]);
       setSelectedImage(0);
       setQuantity(1);
+      addToRecentlyViewed(found);
     }
     window.scrollTo(0, 0);
   }, [id]);
@@ -191,6 +194,20 @@ function Product() {
               {relatedProducts.map(product => (
                 <ProductCard key={product.id} product={product} />
               ))}
+            </div>
+          </section>
+        )}
+
+        {recentlyViewed.length > 1 && (
+          <section className="recently-viewed">
+            <h2>Recently Viewed</h2>
+            <div className="products-grid">
+              {recentlyViewed
+                .filter(item => item.id !== product.id)
+                .slice(0, 4)
+                .map(item => (
+                  <ProductCard key={item.id} product={item} />
+                ))}
             </div>
           </section>
         )}

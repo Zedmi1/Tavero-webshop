@@ -90,7 +90,8 @@ function Navbar({ showAnnouncement = false }) {
                 </svg>
               </button>
               <div className="user-dropdown">
-                <span className="user-name">Hi, {user.name}</span>
+                <span className="user-name">Hi, {user.firstName || user.name}</span>
+                <Link to="/account" className="dropdown-link" onClick={() => setMobileMenuOpen(false)}>My Account</Link>
                 <button onClick={logout} className="logout-btn">Logout</button>
               </div>
             </div>

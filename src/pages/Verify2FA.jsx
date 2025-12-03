@@ -100,6 +100,9 @@ function Verify2FA() {
               We've sent a 6-digit code to <strong>{email || 'your email'}</strong>. 
               Enter it below to complete your login.
             </p>
+            <p className="spam-notice">
+              Can't find the email? Please check your spam or junk folder.
+            </p>
 
             {error && <div className="error-message">{error}</div>}
 

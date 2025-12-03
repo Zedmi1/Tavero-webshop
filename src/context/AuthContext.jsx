@@ -19,6 +19,25 @@ export function AuthProvider({ children }) {
     setIsLoading(false);
   }, []);
 
+  const refreshUser = async () => {
+    const currentToken = token || localStorage.getItem('tavero_token');
+    if (!currentToken) return;
+
+    try {
+      const response = await fetch(`${API_URL}/api/auth/me`, {
+        headers: { Authorization: `Bearer ${currentToken}` }
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        setUser(userData);
+        localStorage.setItem('tavero_user', JSON.stringify(userData));
+      }
+    } catch (error) {
+      console.error('Error refreshing user:', error);
+    }
+  };
+
   const login = async (email, password) => {
     try {
       const response = await fetch(`${API_URL}/api/auth/login`, {
@@ -90,7 +109,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, isLoading, login, register, logout, completeLogin }}>
+    <AuthContext.Provider value={{ user, token, isLoading, login, register, logout, completeLogin, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

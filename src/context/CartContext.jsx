@@ -1,22 +1,53 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
+import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
+  const { user } = useAuth();
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartAnimation, setCartAnimation] = useState(false);
+  const lastUserId = useRef(undefined);
+  const isInitialized = useRef(false);
 
-  useEffect(() => {
-    const savedCart = localStorage.getItem('tavero_cart');
-    if (savedCart) {
-      setCart(JSON.parse(savedCart));
-    }
+  const getStorageKey = useCallback((userId) => {
+    return userId ? `tavero_cart_${userId}` : 'tavero_cart_guest';
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('tavero_cart', JSON.stringify(cart));
-  }, [cart]);
+    const currentUserId = user?.id || null;
+    const previousUserId = lastUserId.current;
+    
+    if (previousUserId !== undefined && previousUserId !== currentUserId && isInitialized.current) {
+      const prevStorageKey = getStorageKey(previousUserId);
+      const prevCart = cart;
+      if (prevCart.length > 0) {
+        localStorage.setItem(prevStorageKey, JSON.stringify(prevCart));
+      }
+    }
+    
+    lastUserId.current = currentUserId;
+    
+    const storageKey = getStorageKey(currentUserId);
+    const savedCart = localStorage.getItem(storageKey);
+    if (savedCart) {
+      try {
+        setCart(JSON.parse(savedCart));
+      } catch {
+        setCart([]);
+      }
+    } else {
+      setCart([]);
+    }
+    isInitialized.current = true;
+  }, [user?.id, getStorageKey]);
+
+  useEffect(() => {
+    if (!isInitialized.current) return;
+    const storageKey = getStorageKey(user?.id || null);
+    localStorage.setItem(storageKey, JSON.stringify(cart));
+  }, [cart, user?.id, getStorageKey]);
 
   const addToCart = (product, size, quantity = 1) => {
     setCart(prev => {

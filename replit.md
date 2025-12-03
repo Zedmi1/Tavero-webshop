@@ -18,6 +18,7 @@ Tavero is a modern, fully functional e-commerce webshop for selling unisex T-shi
 │   │   ├── Wishlist.jsx    # Saved items page
 │   │   ├── Checkout.jsx    # Checkout with selectable shipping options
 │   │   ├── OrderConfirmation.jsx
+│   │   ├── Account.jsx     # User account dashboard (profile, orders, addresses, security)
 │   │   ├── Login.jsx       # User login
 │   │   └── Register.jsx    # User registration
 │   ├── context/        # React context providers
@@ -54,13 +55,22 @@ Product images are stored in `public/images/` folder.
 
 ## Key Features
 1. **Announcement Bar** - Carousel-style bar at top (home page only) showing "Free shipping on all orders over €50" with emoji
-2. **User Authentication** - Login/logout with localStorage persistence
-3. **Product Browsing** - Grid layout with filters (size, price, category including "New Products")
-4. **Shopping Cart** - Slide-out cart with quantity controls and shipping calculation
-5. **Shipping Selection** - Choose from Standard (€5.99), Express (€12.99), or International (€19.99) at checkout
-6. **Wishlist** - Save favorite items, accessible via navigation bar
-7. **Mock Checkout** - Complete checkout flow with shipping method selection and form validation
-8. **Responsive Design** - Works on all screen sizes
+2. **User Authentication** - Login/logout with localStorage persistence, 2FA via email
+3. **User Account Dashboard** - Full account management with profile, orders, addresses, and security settings
+4. **Product Browsing** - Grid layout with filters (size, price, category including "New Products")
+5. **Shopping Cart** - Slide-out cart with quantity controls and shipping calculation
+6. **Shipping Selection** - Choose from Standard (€5.99), Express (€12.99), or International (€19.99) at checkout
+7. **Wishlist** - Save favorite items, accessible via navigation bar
+8. **Order History** - View past purchases with order details, items, and status
+9. **Mock Checkout** - Complete checkout flow with shipping method selection and form validation
+10. **Responsive Design** - Works on all screen sizes
+
+## Account Page Features (/account)
+Accessible via user dropdown menu when logged in:
+- **Profile Tab** - View and edit name, email, and phone number
+- **Orders Tab** - View complete order history with expandable details (items, shipping, address)
+- **Addresses Tab** - Manage saved delivery addresses (add, edit, delete, set default)
+- **Security Tab** - Change password with strong password validation, view 2FA status
 
 ## Home Page Sections
 1. Hero section with logo and CTA
@@ -82,7 +92,7 @@ All footer links lead to dedicated pages with useful content:
 - **FAQ** - Interactive accordion with 10 common questions
 - **Shipping** - Shipping options details
 - **Returns** - 30-day return policy, step-by-step process
-- **Size Guide** - Interactive sizing chart (inches/cm toggle)
+- **Size Guide** - Interactive sizing chart (inches/cm toggle), model size references for all 7 shirt colors
 - **About Us** - Company story, values, and promises
 - **Contact** - Contact form with company info
 - **Terms & Conditions** - Legal terms of use
@@ -93,6 +103,7 @@ All footer links lead to dedicated pages with useful content:
 - **Font**: Inter (Google Fonts)
 - **Style**: Minimal, clean, professional
 - **Currency**: EUR (€)
+- **Location**: Eindhoven, Netherlands (all legal/contact pages reference this location)
 
 ## Tech Stack
 
@@ -166,3 +177,31 @@ The app is deployed as a **single web service** that serves both the API and sta
 
 ### Live URL
 https://tavero.onrender.com
+
+## Development vs Production Environment
+
+**Production (Render)**: The live site is deployed on Render at https://tavero.onrender.com
+- All environment variables (DATABASE_URL, JWT_SECRET, BREVO_API_KEY, etc.) are configured in the Render dashboard
+- Email sending (2FA codes, password reset) works via Brevo with the configured API key
+
+**Development (Replit)**: For local testing, environment variables need to be set separately in Replit's Secrets
+- If testing email features locally, BREVO_API_KEY must also be added to Replit secrets
+
+## Recent Changes (December 2025)
+- **Size Guide Model References**: Added model size references for all 7 t-shirt colors (White, Black, Brown, Gray, Green, Light Blue, Marine) - previously only had White and Black
+- **Location Update**: Changed all company location references from Los Angeles, CA (USA) to Eindhoven, Netherlands. Updated pages:
+  - Contact.jsx - Location info
+  - Privacy.jsx - Contact address  
+  - Terms.jsx - Governing law (Netherlands) and contact address
+- **Contact Emails**: Changed all contact emails across the site to zedminabowan@gmail.com:
+  - Contact.jsx (was support@tavero.com)
+  - Privacy.jsx (was privacy@tavero.com)
+  - Terms.jsx (was legal@tavero.com)
+- **Email Configuration (Brevo)**: To send 2FA emails, verify zedminabowan@gmail.com in Brevo and set BREVO_SENDER_EMAIL=zedminabowan@gmail.com in Render environment variables
+- **2FA Spam Notice**: Added notice on 2FA verification page reminding users to check spam/junk folder
+- **Email Templates Redesign**: Improved 2FA and password reset email templates with:
+  - Tavero logo in header
+  - Branded blue gradient header
+  - Better typography and spacing
+  - Footer with company info (Eindhoven, Netherlands)
+- **Password Reset Flow**: The reset password page exists at `/reset-password?token=xxx`. Ensure `FRONTEND_URL` is set to `https://tavero.onrender.com` in Render environment variables for correct reset links.

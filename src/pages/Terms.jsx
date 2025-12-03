@@ -94,7 +94,7 @@ function Terms() {
 
         <section className="legal-section">
           <h2>11. Governing Law</h2>
-          <p>These Terms and Conditions are governed by the laws of the State of California, United States. Any disputes shall be resolved in the courts of Los Angeles County, California.</p>
+          <p>These Terms and Conditions are governed by the laws of the Netherlands. Any disputes shall be resolved in the courts of Eindhoven, Netherlands.</p>
         </section>
 
         <section className="legal-section">
@@ -105,8 +105,8 @@ function Terms() {
         <section className="legal-section">
           <h2>13. Contact Information</h2>
           <p>For questions about these Terms and Conditions, please contact us at:</p>
-          <p><strong>Email:</strong> legal@tavero.com</p>
-          <p><strong>Address:</strong> Tavero, Los Angeles, CA</p>
+          <p><strong>Email:</strong> zedminabowan@gmail.com</p>
+          <p><strong>Address:</strong> Tavero, Eindhoven, Netherlands</p>
         </section>
       </div>
     </div>
