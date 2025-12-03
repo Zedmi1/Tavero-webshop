@@ -665,34 +665,38 @@
 
 .dashboard-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
   margin-bottom: 32px;
 }
 
 .stat-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 20px;
+  text-align: center;
+  gap: 12px;
+  padding: 24px 16px;
   background: #f9fafb;
   border-radius: 12px;
   border: 1px solid #e5e7eb;
   transition: all 0.2s ease;
+  min-height: 160px;
 }
 
 .stat-card:hover {
   border-color: #d1d5db;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
 }
 
 .stat-icon {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 12px;
   flex-shrink: 0;
 }
 
@@ -720,24 +724,28 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: 4px;
 }
 
 .stat-value {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: 700;
   color: #111827;
+  line-height: 1.2;
 }
 
 .stat-label {
-  font-size: 13px;
+  font-size: 14px;
   color: #6b7280;
+  white-space: nowrap;
 }
 
 .stat-total {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: #059669;
+  margin-top: 2px;
 }
 
 .stat-total::before {
@@ -745,7 +753,7 @@
 }
 
 .stat-link {
-  padding: 6px 12px;
+  padding: 8px 16px;
   background: #111827;
   color: white;
   border: none;
@@ -755,6 +763,7 @@
   cursor: pointer;
   text-decoration: none;
   transition: background 0.2s ease;
+  margin-top: auto;
 }
 
 .stat-link:hover {
@@ -978,20 +987,40 @@
   margin-bottom: 24px;
 }
 
+@media (max-width: 1100px) {
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 600px) {
   .dashboard-stats {
     grid-template-columns: 1fr 1fr;
+    gap: 12px;
   }
 
   .stat-card {
-    flex-direction: column;
-    text-align: center;
+    padding: 16px 12px;
+    min-height: 140px;
     gap: 10px;
-    padding: 16px;
   }
 
-  .stat-content {
-    align-items: center;
+  .stat-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .stat-value {
+    font-size: 24px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+  }
+
+  .stat-link {
+    padding: 6px 12px;
+    font-size: 12px;
   }
 
   .wishlist-preview,

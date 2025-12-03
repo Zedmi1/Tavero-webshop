@@ -264,11 +264,15 @@ router.post('/forgot-password', async (req, res) => {
     const baseUrl = (process.env.FRONTEND_URL || req.headers.origin || 'http://localhost:5000').replace(/\/+$/, '');
     const resetUrl = `${baseUrl}/reset-password?token=${token}`;
 
-    const emailResult = await sendPasswordResetEmail(user.email, token, resetUrl);
-
-    if (!emailResult.success) {
-      console.error('Failed to send password reset email:', emailResult.error);
-    }
+    sendPasswordResetEmail(user.email, token, resetUrl)
+      .then(emailResult => {
+        if (!emailResult.success) {
+          console.error('Failed to send password reset email:', emailResult.error);
+        }
+      })
+      .catch(error => {
+        console.error('Password reset email error:', error);
+      });
 
     res.json({ message: 'Password reset link has been sent to your email' });
   } catch (error) {
