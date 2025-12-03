@@ -111,7 +111,7 @@ function CartSlider() {
                   )}
                   <div className="summary-row total">
                     <span>Total</span>
-                    <span>€{orderTotal.toFixed(2)}</span>
+                    <span>{orderTotal.toFixed(2)}</span>
                   </div>
                 </div>
                 <button 
