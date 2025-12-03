@@ -338,7 +338,7 @@ function Checkout() {
                     <p className="item-name">{item.name}</p>
                     <p className="item-meta">Size: {item.size} | Qty: {item.quantity}</p>
                   </div>
-                  <p className="item-price">€{(item.price * item.quantity).toFixed(2)}</p>
+                  <p className="item-price">{(item.price * item.quantity).toFixed(2)}</p>
                 </div>
               ))}
             </div>
@@ -359,7 +359,7 @@ function Checkout() {
               )}
               <div className="summary-row total">
                 <span>Total</span>
-                <span>€{orderTotal.toFixed(2)}</span>
+                <span>{orderTotal.toFixed(2)}</span>
               </div>
             </div>
           </div>
