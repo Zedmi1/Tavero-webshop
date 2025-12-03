@@ -1,21 +1,52 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useRef, useCallback } from 'react';
+import { useAuth } from './AuthContext';
 
 const WishlistContext = createContext();
 
 export function WishlistProvider({ children }) {
+  const { user } = useAuth();
   const [wishlist, setWishlist] = useState([]);
   const [heartAnimation, setHeartAnimation] = useState(null);
+  const lastUserId = useRef(undefined);
+  const isInitialized = useRef(false);
 
-  useEffect(() => {
-    const savedWishlist = localStorage.getItem('tavero_wishlist');
-    if (savedWishlist) {
-      setWishlist(JSON.parse(savedWishlist));
-    }
+  const getStorageKey = useCallback((userId) => {
+    return userId ? `tavero_wishlist_${userId}` : 'tavero_wishlist_guest';
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('tavero_wishlist', JSON.stringify(wishlist));
-  }, [wishlist]);
+    const currentUserId = user?.id || null;
+    const previousUserId = lastUserId.current;
+    
+    if (previousUserId !== undefined && previousUserId !== currentUserId && isInitialized.current) {
+      const prevStorageKey = getStorageKey(previousUserId);
+      const prevWishlist = wishlist;
+      if (prevWishlist.length > 0) {
+        localStorage.setItem(prevStorageKey, JSON.stringify(prevWishlist));
+      }
+    }
+    
+    lastUserId.current = currentUserId;
+    
+    const storageKey = getStorageKey(currentUserId);
+    const savedWishlist = localStorage.getItem(storageKey);
+    if (savedWishlist) {
+      try {
+        setWishlist(JSON.parse(savedWishlist));
+      } catch {
+        setWishlist([]);
+      }
+    } else {
+      setWishlist([]);
+    }
+    isInitialized.current = true;
+  }, [user?.id, getStorageKey]);
+
+  useEffect(() => {
+    if (!isInitialized.current) return;
+    const storageKey = getStorageKey(user?.id || null);
+    localStorage.setItem(storageKey, JSON.stringify(wishlist));
+  }, [wishlist, user?.id, getStorageKey]);
 
   const addToWishlist = (product) => {
     if (!wishlist.find(item => item.id === product.id)) {

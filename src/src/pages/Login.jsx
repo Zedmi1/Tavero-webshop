@@ -1,23 +1,36 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Auth.css';
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
+  
+  const registrationSuccess = location.state?.registrationSuccess;
+  const registeredEmail = location.state?.email;
+  
   const [formData, setFormData] = useState({
-    email: '',
+    email: registeredEmail || '',
     password: ''
   });
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState(registrationSuccess ? 'Account created successfully! Please log in to continue.' : '');
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  
+  useEffect(() => {
+    if (registrationSuccess) {
+      window.history.replaceState({}, document.title);
+    }
+  }, [registrationSuccess]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     setError('');
+    setSuccessMessage('');
   };
 
   const handleSubmit = async (e) => {
@@ -80,6 +93,16 @@ function Login() {
 
           <h1>Welcome Back</h1>
           <p className="auth-subtitle">Log in to your Tavero account</p>
+
+          {successMessage && (
+            <div className="success-message">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              <span style={{ marginLeft: '8px' }}>{successMessage}</span>
+            </div>
+          )}
 
           {error && (
             <div className="auth-error">

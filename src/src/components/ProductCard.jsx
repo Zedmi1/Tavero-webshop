@@ -46,7 +46,7 @@ function ProductCard({ product }) {
 
           <div className={`add-to-cart-overlay ${showAddToCart ? 'visible' : ''}`}>
             <div className="quick-size-select">
-              {product.sizes.slice(0, 4).map(size => (
+              {product.sizes.map(size => (
                 <button
                   key={size}
                   className={`size-btn ${selectedSize === size ? 'active' : ''}`}

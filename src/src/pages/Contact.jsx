@@ -74,7 +74,7 @@ function Contact() {
                   </div>
                   <div>
                     <h4>Email</h4>
-                    <p>support@tavero.com</p>
+                    <p>zedminabowan@gmail.com</p>
                   </div>
                 </div>
                 <div className="contact-item">
@@ -98,7 +98,7 @@ function Contact() {
                   </div>
                   <div>
                     <h4>Location</h4>
-                    <p>Los Angeles, CA</p>
+                    <p>Eindhoven, Netherlands</p>
                   </div>
                 </div>
               </div>

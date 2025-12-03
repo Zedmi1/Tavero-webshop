@@ -42,12 +42,21 @@ function ForgotPassword() {
         <div className="container">
           <div className="auth-container">
             <div className="auth-box">
-              <h1>Check Your Email</h1>
-              <div className="success-message">
-                <p>If an account exists with the email <strong>{email}</strong>, we've sent a password reset link.</p>
-                <p>Please check your inbox and spam folder.</p>
+              <div className="email-sent-icon">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+                  <path d="M22 7l-10 7L2 7"/>
+                </svg>
               </div>
-              <Link to="/login" className="btn btn-primary" style={{ width: '100%', marginTop: '20px' }}>
+              <h1>Check Your Email</h1>
+              <p className="auth-subtitle" style={{ marginBottom: '16px' }}>
+                We've sent a password reset link to:
+              </p>
+              <p className="email-highlight">{email}</p>
+              <p className="email-instructions">
+                Click the link in the email to reset your password. Don't forget to check your spam folder if you don't see it in your inbox.
+              </p>
+              <Link to="/login" className="btn btn-primary" style={{ width: '100%', marginTop: '24px' }}>
                 Back to Login
               </Link>
             </div>

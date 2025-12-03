@@ -261,14 +261,18 @@ router.post('/forgot-password', async (req, res) => {
       }
     });
 
-    const baseUrl = process.env.FRONTEND_URL || req.headers.origin || 'http://localhost:5000';
+    const baseUrl = (process.env.FRONTEND_URL || req.headers.origin || 'http://localhost:5000').replace(/\/+$/, '');
     const resetUrl = `${baseUrl}/reset-password?token=${token}`;
 
-    const emailResult = await sendPasswordResetEmail(user.email, token, resetUrl);
-
-    if (!emailResult.success) {
-      console.error('Failed to send password reset email:', emailResult.error);
-    }
+    sendPasswordResetEmail(user.email, token, resetUrl)
+      .then(emailResult => {
+        if (!emailResult.success) {
+          console.error('Failed to send password reset email:', emailResult.error);
+        }
+      })
+      .catch(error => {
+        console.error('Password reset email error:', error);
+      });
 
     res.json({ message: 'Password reset link has been sent to your email' });
   } catch (error) {
@@ -417,6 +421,87 @@ router.put('/me', authenticateToken, async (req, res) => {
   }
 });
 
+router.put('/profile', authenticateToken, async (req, res) => {
+  try {
+    const { firstName, lastName, email, phone } = req.body;
+
+    if (email) {
+      const existingUser = await prisma.user.findFirst({
+        where: { 
+          email,
+          NOT: { id: req.user.userId }
+        }
+      });
+      
+      if (existingUser) {
+        return res.status(400).json({ error: 'Email already in use by another account' });
+      }
+    }
+
+    const user = await prisma.user.update({
+      where: { id: req.user.userId },
+      data: { 
+        firstName, 
+        lastName, 
+        email,
+        phone: phone || null 
+      },
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        phone: true
+      }
+    });
+
+    res.json(user);
+  } catch (error) {
+    console.error('Update profile error:', error);
+    res.status(500).json({ error: 'Failed to update profile' });
+  }
+});
+
+router.put('/change-password', authenticateToken, async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ error: 'Current password and new password are required' });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.userId }
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    const validPassword = await bcrypt.compare(currentPassword, user.password);
+    if (!validPassword) {
+      return res.status(401).json({ error: 'Current password is incorrect' });
+    }
+
+    const passwordErrors = validatePassword(newPassword);
+    if (passwordErrors.length > 0) {
+      return res.status(400).json({ error: 'Password must contain: ' + passwordErrors.join(', ') });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    
+    await prisma.user.update({
+      where: { id: req.user.userId },
+      data: { password: hashedPassword }
+    });
+
+    res.json({ message: 'Password changed successfully' });
+  } catch (error) {
+    console.error('Change password error:', error);
+    res.status(500).json({ error: 'Failed to change password' });
+  }
+});
+
 router.post('/addresses', authenticateToken, async (req, res) => {
   try {
     const { street, city, postcode, country, isDefault } = req.body;
@@ -443,6 +528,67 @@ router.post('/addresses', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Create address error:', error);
     res.status(500).json({ error: 'Failed to create address' });
+  }
+});
+
+router.put('/addresses/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { street, city, postcode, country, isDefault } = req.body;
+
+    const address = await prisma.address.findFirst({
+      where: { id: parseInt(id), userId: req.user.userId }
+    });
+
+    if (!address) {
+      return res.status(404).json({ error: 'Address not found' });
+    }
+
+    if (isDefault) {
+      await prisma.address.updateMany({
+        where: { userId: req.user.userId },
+        data: { isDefault: false }
+      });
+    }
+
+    const updatedAddress = await prisma.address.update({
+      where: { id: parseInt(id) },
+      data: {
+        street,
+        city,
+        postcode,
+        country: country || 'Netherlands',
+        isDefault: isDefault || false
+      }
+    });
+
+    res.json(updatedAddress);
+  } catch (error) {
+    console.error('Update address error:', error);
+    res.status(500).json({ error: 'Failed to update address' });
+  }
+});
+
+router.delete('/addresses/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const address = await prisma.address.findFirst({
+      where: { id: parseInt(id), userId: req.user.userId }
+    });
+
+    if (!address) {
+      return res.status(404).json({ error: 'Address not found' });
+    }
+
+    await prisma.address.delete({
+      where: { id: parseInt(id) }
+    });
+
+    res.json({ message: 'Address deleted successfully' });
+  } catch (error) {
+    console.error('Delete address error:', error);
+    res.status(500).json({ error: 'Failed to delete address' });
   }
 });
 

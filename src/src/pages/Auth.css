@@ -209,15 +209,21 @@
 }
 
 .success-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background: #D1FAE5;
   color: #065F46;
-  padding: 20px;
+  padding: 24px;
   border-radius: 8px;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .success-message p {
   margin: 8px 0;
+  line-height: 1.5;
 }
 
 .error-message {
@@ -234,6 +240,12 @@
   letter-spacing: 8px;
   text-align: center;
   font-weight: 600;
+}
+
+.verification-code-input::placeholder {
+  letter-spacing: normal;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .resend-section {
@@ -345,4 +357,43 @@
   color: var(--error);
   font-size: 13px;
   margin-top: 6px;
+}
+
+.spam-notice {
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+  background: #f8f9fa;
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.email-sent-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.email-sent-icon svg {
+  color: var(--primary-dark, #87AEDF);
+}
+
+.email-highlight {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  word-break: break-all;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.email-instructions {
+  font-size: 14px;
+  color: var(--text-light);
+  text-align: center;
+  line-height: 1.6;
 }

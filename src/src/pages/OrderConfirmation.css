@@ -120,7 +120,7 @@
   color: var(--text-light);
 }
 
-.order-item .item-price {
+.order-item .confirmation-item-price {
   font-weight: 600;
   font-size: 14px;
 }
