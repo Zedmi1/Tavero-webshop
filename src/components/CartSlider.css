@@ -174,6 +174,9 @@
 }
 
 .cart-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   margin-bottom: 20px;
 }
 
@@ -181,9 +184,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: 8px 0;
   font-size: 15px;
   color: var(--text-light);
+  width: 100%;
 }
 
 .summary-row span:first-child {
@@ -193,6 +197,7 @@
 .summary-row span:last-child {
   font-weight: 600;
   color: var(--text-dark);
+  white-space: nowrap;
 }
 
 .summary-row.total {
@@ -207,6 +212,7 @@
 .summary-row.total span:last-child {
   font-size: 20px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .shipping-notice {
@@ -217,7 +223,9 @@
   font-size: 13px;
   font-weight: 500;
   text-align: center;
-  margin: 16px 0;
+  margin: 12px 0;
+  width: 100%;
+  align-self: stretch;
 }
 
 .checkout-btn {
